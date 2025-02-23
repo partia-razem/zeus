@@ -43,6 +43,7 @@ app_patterns += [
     re_path(r'^i18n/setlang', site.setlang),
     re_path(r'^i18n/', include('django.conf.urls.i18n')),
     re_path(r'^account_administration/', include('account_administration.urls')),
+    re_path(r'^robots\.txt$', django.views.static.serve, {'document_root': settings.STATIC_ROOT, 'path': 'zeus/robots.txt'})
 ]
 
 urlpatterns = [
