@@ -1048,8 +1048,8 @@ class STVBallotForm(forms.Form):
 
 
 candidates_help_text = _("""Candidates list. e.g., <br/><br/>
-FirstName, LastName, FatherName, SchoolA<br />
-FirstName, LastName, FatherName, SchoolB<br />
+FirstName, LastName, SchoolA<br />
+FirstName, LastName, SchoolB<br />
 """)
 
 limit_choices = [(x, str(x)) for x in range(2)]
@@ -1104,7 +1104,7 @@ class STVElectionForm(forms.Form):
         cs = self.cleaned_data.get('candidates')[:]
         for i, c in enumerate(cs):
             cs[i] = [x.strip().replace(" ", "-") for x in c.split(",")]
-            cs[i] = "{} {} {}:{}".format(*cs[i])
+            cs[i] = "{} {}:{}".format(*cs[i])
         return cs
 
     def get_data(self):
@@ -1121,8 +1121,9 @@ class STVElectionForm(forms.Form):
         for i, c in enumerate(cands):
             name, school = c.split(":")
             name, surname, fathername = name.split(" ")
-            entry = {'lastName': surname, 'fatherName': fathername,
-                     'candidateTmpId': i, 'firstName': name}
+            entry = {'lastName': surname,
+                     'candidateTmpId': i,
+                     'firstName': name}
             schools[school].append(entry)
 
         _schools = []

@@ -302,8 +302,8 @@ msgstr ""
 
 msgid ""
 "Candidates list. e.g., <br/><br/>\n"
-"FirstName, LastName, FatherName, SchoolA<br />\n"
-"FirstName, LastName, FatherName, SchoolB<br />\n"
+"FirstName, LastName, SchoolA<br />\n"
+"FirstName, LastName, SchoolB<br />\n"
 msgstr ""
 
 msgid "Election name"
