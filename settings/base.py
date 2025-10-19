@@ -221,6 +221,7 @@ LINKEDIN_API_KEY = ''
 LINKEDIN_API_SECRET = ''
 
 # email server
+EMAIL_SUBJECT_PREFIX = '[ZEUS] '
 EMAIL_HOST = get_from_env('EMAIL_HOST', 'localhost')
 EMAIL_PORT = 2525
 EMAIL_HOST_USER = get_from_env('EMAIL_HOST_USER', '')
