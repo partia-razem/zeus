@@ -100,7 +100,7 @@ def stv_count(request):
         _uuid = str(uuid.uuid4())
         files = stv_count_and_report(_uuid, el_data)
         json_file = os.path.join('/tmp', 'json-stv-results-%s' % _uuid)
-        with open(json_file, 'w') as f:
+        with open(json_file, 'w', encoding="utf-8") as f:
             f.write(json.dumps(el_data, ensure_ascii=False))
         files.append(('json', json_file))
         session['results'] = dict(files)
