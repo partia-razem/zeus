@@ -1092,7 +1092,7 @@ class STVElectionForm(forms.Form):
         candidates = self.cleaned_data.get('candidates').strip()
         candidates = [x.strip() for x in candidates.split("\n")]
         for c in candidates:
-            if len(c.split(",")) != 4:
+            if len(c.split(",")) != 3:
                 raise ValidationError(_("Candidate %s is invalid") % c)
 
         return candidates
