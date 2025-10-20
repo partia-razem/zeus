@@ -310,6 +310,16 @@ msgstr ""
 "Imię, Nazwisko, parytet<br />\n"
 "Imię, Nazwisko, parytet<br />\n"
 
+msgid ""
+"Ballots list. e.g., <br/><br/>\n"
+"Candidate One:SchoolA<br/>\n"
+"Candidate Two:SchoolB<br/>\n"
+msgstr ""
+"Lista kandydatów. np., <br/><br/>\n"
+"Imię Nazwisko:parytet M<br />\n"
+"Imię Nazwisko:parytet K<br />\n"
+
+
 msgid "Election name"
 msgstr "Nazwa wyborów"
 
@@ -343,6 +353,10 @@ msgstr "Nieprawidłowy format daty"
 #, python-format
 msgid "Candidate %s is invalid"
 msgstr "Kandydatka %s jest nieprawidłowa"
+
+#, python-format
+msgid "Ballot %s is invalid"
+msgstr "Karta %s jest nieprawidłowa"
 
 msgid "This is a trial election"
 msgstr "To wybory testowe"
