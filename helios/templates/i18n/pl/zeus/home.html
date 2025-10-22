@@ -26,15 +26,6 @@
   <h5><a href="{{settings.URL_HOST}}{% url "login" %}">Logowanie (administratorzy wyborów)</a></h5>
   <h5><a href="{{settings.URL_HOST}}{% url "voter_login" %}">Logowanie (głosujący)</a></h5>
 </div>
-<div class="columns five">
-  <h5>Demo</h5>
-  <p>Wypróbuj Zeusa na koncie demonstracyjnym. Dane do logowania będą wysłane na podany adres email.</p>
-  <form class="prettyform" method="post"
-          action="{{settings.URL_HOST}}{% url "site_demo" %}">
-    Twój adres email: <input type="text" value="" name="email"/>
-    <input class="button" type="submit" value="Wyślij konto demonstracyjne" />
-  </form>
-</div>
 <div class="columns four">
 </div>
 </div>

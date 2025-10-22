@@ -32,16 +32,6 @@
   <h5><a href="{{settings.URL_HOST}}{% url "login" %}">Election operators login here</a></h5>
   <h5><a href="{{settings.URL_HOST}}{% url "voter_login" %}">Voters login here</a></h5>
 </div>
-<div class="columns five">
-  <h5>Zeus Demo</h5>
-  <p>Check out Zeus with a demo account.
-     Credentials will be sent to your email address below.</p>
-  <form class="prettyform" method="post"
-          action="{{settings.URL_HOST}}{% url "site_demo" %}">
-    Your email address: <input type="text" value="" name="email"/>
-    <input class="button" type="submit" value="Send me a demo account" />
-  </form>
-</div>
 <div class="columns four">
 </div>
 </div>
