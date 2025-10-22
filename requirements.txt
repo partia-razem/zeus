@@ -37,7 +37,7 @@ click==7.1.2
     #   pip-tools
 cloudpickle==1.6.0
     # via loky
-codecov==2.1.11
+codecov==2.1.13
     # via -r requirements.in
 coverage==5.5
     # via

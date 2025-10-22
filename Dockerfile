@@ -56,3 +56,5 @@ RUN ./compile-translations.sh
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
+
+EXPOSE 8000
