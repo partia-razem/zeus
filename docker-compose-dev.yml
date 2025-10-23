@@ -15,12 +15,13 @@ services:
       - .:/home/user/zeus:rw
     working_dir: /home/user/zeus
     environment:
-      - PGHOST
-      - PGDATABASE
-      - PGUSER
-      - PGPASSWORD
+      - PGHOST=postgres
+      - PGDATABASE=zeus
+      - PGUSER=zeus
+      - PGPASSWORD=password
     depends_on:
       - redis
+      - postgres
 
   dev_celery:
     command: celery -A zeus.celery worker -l INFO --concurrency 1 --pool solo
@@ -32,9 +33,23 @@ services:
       - .:/home/user/zeus:rw
     working_dir: /home/user/zeus
     environment:
-      - PGHOST
-      - PGDATABASE
-      - PGUSER
-      - PGPASSWORD
+      - PGHOST=postgres
+      - PGDATABASE=zeus
+      - PGUSER=zeus
+      - PGPASSWORD=password
     depends_on:
       - redis
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: zeus
+      POSTGRES_DB: zeus
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

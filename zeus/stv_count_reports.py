@@ -31,9 +31,8 @@ def stv_count_and_report(uuid, el_data, base_path="/tmp/"):
     for item in schools:
         school_name = item['Name']
         for candidate in item['candidates']:
-            candId = "{} {} {}:{}".format(candidate['firstName'],
+            candId = "{} {}:{}".format(candidate['firstName'],
                                             candidate['lastName'],
-                                            candidate['fatherName'],
                                             school_name)
             answers[str(candidate['candidateTmpId'])] = candId
             answers_list.append(candId)

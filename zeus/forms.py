@@ -1048,8 +1048,12 @@ class STVBallotForm(forms.Form):
 
 
 candidates_help_text = _("""Candidates list. e.g., <br/><br/>
-FirstName, LastName, FatherName, SchoolA<br />
-FirstName, LastName, FatherName, SchoolB<br />
+FirstName, LastName, SchoolA<br />
+FirstName, LastName, SchoolB<br />
+""")
+ballots_help_text = _("""Ballots list. e.g., <br/><br/>
+Candidate One:SchoolA<br/>
+Candidate Two:SchoolB<br/>
 """)
 
 limit_choices = [(x, str(x)) for x in range(2)]
@@ -1064,7 +1068,7 @@ class STVElectionForm(forms.Form):
     candidates = forms.CharField(label=_("Candidates"), widget=forms.Textarea, help_text=candidates_help_text)
     eligibles_count = forms.ChoiceField(label=_("Eligibles count"), choices=eligibles_choices)
     elected_limit = forms.IntegerField(label=_("Maximum elected per department"), required=False)
-    ballots_count = forms.CharField(label=_("Ballots count"))
+    ballots = forms.CharField(label=_("Ballots"), widget=forms.Textarea, help_text=ballots_help_text)
 
     def __init__(self, *args, **kwargs):
         kwargs.pop('disabled', False)
@@ -1092,10 +1096,19 @@ class STVElectionForm(forms.Form):
         candidates = self.cleaned_data.get('candidates').strip()
         candidates = [x.strip() for x in candidates.split("\n")]
         for c in candidates:
-            if len(c.split(",")) != 4:
+            if len(c.split(",")) != 3:
                 raise ValidationError(_("Candidate %s is invalid") % c)
 
         return candidates
+
+    def clean_ballots(self):
+        ballots = self.cleaned_data.get('ballots').strip()
+        ballots = [x.strip() for x in ballots.split("\n")]
+        for ballot in ballots:
+            if len(ballot.split(":")) != len(ballot.split(",")) + 1:
+                raise ValidationError(_("Ballot %s is invalid") % ballot)
+
+        return ballots
 
     def get_candidates(self):
         if not hasattr(self, 'cleaned_data'):
@@ -1103,9 +1116,13 @@ class STVElectionForm(forms.Form):
 
         cs = self.cleaned_data.get('candidates')[:]
         for i, c in enumerate(cs):
-            cs[i] = [x.strip().replace(" ", "-") for x in c.split(",")]
-            cs[i] = "{} {} {}:{}".format(*cs[i])
+            cs[i] = [x.strip() for x in c.split(",")]
+            cs[i] = "{} {}:{}".format(*cs[i])
         return cs
+
+    def get_ballots(self):
+        ballots = self.cleaned_data.get('ballots') or []
+        return ballots
 
     def get_data(self):
         data = self.cleaned_data
@@ -1120,9 +1137,12 @@ class STVElectionForm(forms.Form):
         schools = defaultdict(lambda: [])
         for i, c in enumerate(cands):
             name, school = c.split(":")
-            name, surname, fathername = name.split(" ")
-            entry = {'lastName': surname, 'fatherName': fathername,
-                     'candidateTmpId': i, 'firstName': name}
+            name_fragments = name.split(" ")
+            surname = name_fragments.pop()
+            name = " ".join(name_fragments)
+            entry = {'lastName': surname,
+                     'candidateTmpId': c,
+                     'firstName': name}
             schools[school].append(entry)
 
         _schools = []

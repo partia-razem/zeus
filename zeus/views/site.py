@@ -50,32 +50,16 @@ def stv_count(request):
         if request.method == "POST":
             form = STVElectionForm(request.POST, disabled=False)
             if form.is_valid():
-                candidates = form.get_candidates()
-
-                class F(STVBallotForm):
-                    pass
-
-                setattr(F, 'candidates', candidates)
-                formset_count = int(form.cleaned_data.get('ballots_count'))
-                if not request.POST.get('submit_ballots', False):
-                    BallotsForm = formset_factory(F, extra=formset_count,
-                                                max_num=formset_count)
-                    ballots_form = BallotsForm()
-                else:
-                    BallotsForm = formset_factory(F, extra=0,
-                                                max_num=formset_count)
-                    ballots_form = BallotsForm(request.POST)
-                    if ballots_form.is_valid():
-                        el = form.get_data()
-                        for i, b in enumerate(ballots_form):
-                            choices = b.get_choices(i + 1)
-                            if not choices.get('votes'):
-                                continue
-                            el['ballots'].append(b.get_choices(i + 1))
-                        el_data = el
-                        do_count = True
-                    else:
-                        context['error'] = _("Invalid ballot data")
+                ballots = form.get_ballots()
+                el = form.get_data()
+                for i, ballot in enumerate(ballots):
+                    ballot = ballots[i]
+                    choices=[]
+                    for j, choice in enumerate(ballot.split(",")):
+                        choices.append({'rank': j+1, "candidateTmpId": choice})
+                    el['ballots'].append({'votes': choices, "ballotSerialNumber": i})
+                el_data = el
+                do_count = True
 
         context['import'] = 1
         context['form'] = form
@@ -100,7 +84,7 @@ def stv_count(request):
         _uuid = str(uuid.uuid4())
         files = stv_count_and_report(_uuid, el_data)
         json_file = os.path.join('/tmp', 'json-stv-results-%s' % _uuid)
-        with open(json_file, 'w') as f:
+        with open(json_file, 'w', encoding="utf-8") as f:
             f.write(json.dumps(el_data, ensure_ascii=False))
         files.append(('json', json_file))
         session['results'] = dict(files)

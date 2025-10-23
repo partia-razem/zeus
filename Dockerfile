@@ -17,7 +17,8 @@ RUN apt-get -y update && apt-get -yy install \
     libmpc-dev \
     postgresql-client-12 \
     moreutils \
-    gettext
+    gettext \
+    fonts-open-sans
 
 RUN useradd --create-home --shell /bin/bash user
 
@@ -56,3 +57,5 @@ RUN ./compile-translations.sh
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
+
+EXPOSE 8000
